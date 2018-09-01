@@ -53,16 +53,17 @@ module.exports.run = async (client, message, args) => {
         requester: message.author.tag,
         requesterIcon: message.author.displayAvatarURL
     });
-
     if (firstSong) {
         client.play_next(message);
     } else {
-        const embed = new RichEmbed()
+       const embed = new RichEmbed()
             .setColor('RED')
+            .setDescription(`Successfully added the song \`${info.title}\` to the queue.\n\nDuration: ${minutes}:${seconds}`)
             .setAuthor(info.title, `https://i.ytimg.com/vi/${info.id}/mqdefault.jpg`, `https://www.youtube.com/watch?v=${info.id}`)
-            .setDescription(`Added the song **${info.title}** to the playlist. (Length: ${minutes}:${seconds})`)
+            .setFooter(`Requested by ${message.author.tag}}`, message.author.displayAvatarURL)
             .setImage(`https://i.ytimg.com/vi/${info.id}/mqdefault.jpg`)
-            .setFooter(`Requested by ${message.author.tag}`, messgae.author.displayAvatarURL);
+            .setTimestamp()
+            .setURL(`https://www.youtube.com/watch?v=${info.id}`);
         return message.channel.send(embed);
     };
 };
@@ -73,4 +74,8 @@ module.exports.conf = {
     aliases: []
 };
 
-module.exports.help = { name: 'play' };
+module.exports.help = {
+    name: 'play',
+    description: 'Adds a song to the server queue.',
+    usage: 'm!play <search term>',
+};
